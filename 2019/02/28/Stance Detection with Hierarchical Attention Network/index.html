@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="任务对文本针对特定话题或实体的支持/反对态度进行分类。 模型句子中除了文字所包含的信息，其语言学信息同样对立场识别有帮助。为将这两部分特征结合，作者提出了多层注意力网络模型 (Hierarchical Attention Network)。语言学注意力层 (linguistic attention) 调节文字信息与各个语言学特征的关系。超注意力层 (hyper attention) 调节各个特征的">
+<meta name="keywords" content="立场检测,神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stance Detection with Hierarchical Attention Network 笔记">
+<meta property="og:url" content="http://yoursite.com/2019/02/28/Stance Detection with Hierarchical Attention Network/index.html">
+<meta property="og:site_name" content="黍离">
+<meta property="og:description" content="任务对文本针对特定话题或实体的支持/反对态度进行分类。 模型句子中除了文字所包含的信息，其语言学信息同样对立场识别有帮助。为将这两部分特征结合，作者提出了多层注意力网络模型 (Hierarchical Attention Network)。语言学注意力层 (linguistic attention) 调节文字信息与各个语言学特征的关系。超注意力层 (hyper attention) 调节各个特征的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/structure.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/e4.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/e5.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/results.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/liguistic_features.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/structure_feature.png">
+<meta property="og:updated_time" content="2019-02-28T15:49:47.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stance Detection with Hierarchical Attention Network 笔记">
+<meta name="twitter:description" content="任务对文本针对特定话题或实体的支持/反对态度进行分类。 模型句子中除了文字所包含的信息，其语言学信息同样对立场识别有帮助。为将这两部分特征结合，作者提出了多层注意力网络模型 (Hierarchical Attention Network)。语言学注意力层 (linguistic attention) 调节文字信息与各个语言学特征的关系。超注意力层 (hyper attention) 调节各个特征的">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/structure.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/28/Stance Detection with Hierarchical Attention Network/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Stance Detection with Hierarchical Attention Network 笔记 | 黍离</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黍离</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/Stance Detection with Hierarchical Attention Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Opdoop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黍离">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Stance Detection with Hierarchical Attention Network 笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-28 00:00:00 / 修改时间：23:49:47" itemprop="dateCreated datePublished" datetime="2019-02-28T00:00:00+08:00">2019-02-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/笔记/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h1><p>对文本针对特定话题或实体的支持/反对态度进行分类。</p>
+<h1 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h1><p>句子中除了文字所包含的信息，其语言学信息同样对立场识别有帮助。为将这两部分特征结合，作者提出了多层注意力网络模型 (Hierarchical Attention Network)。语言学注意力层 (linguistic attention) 调节文字信息与各个语言学特征的关系。超注意力层 (hyper attention) 调节各个特征的权重。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="structure.png" alt="模型结构"></p>
+<h1 id="各个特征的计算"><a href="#各个特征的计算" class="headerlink" title="各个特征的计算"></a>各个特征的计算</h1><h2 id="文本特征"><a href="#文本特征" class="headerlink" title="文本特征"></a>文本特征</h2><p>$$ X = (w_1, w_2, …, w_n) $$<br>设句子为 $X$，由词 $w_1,…w_n$ 组成，其中 $n$ 为词的个数。用 skip-gram 算法 预训练的 word embedding，将句中的词转为对应的词向量。<br>使用 LSTM 训练词向量，其中对于第 $t$ 个词，其在LSTM中的隐层状态值为 $h_(t)$，<br>$h_(t) = LSTM (w_t, h_(t-1))$。<br>用最后一个的隐层状态代表文本特征 $H = h_n$，<br>LSTM 的可训练参数都是随机初始化的。</p>
+<h2 id="语言学特征"><a href="#语言学特征" class="headerlink" title="语言学特征"></a>语言学特征</h2><h3 id="情感特征"><a href="#情感特征" class="headerlink" title="情感特征"></a>情感特征</h3><blockquote>
+<p>例句1： 如果我们真诚的希望国家保持进步，希拉里是我们最好的选择。（实体：希拉里·克林顿）</p>
+</blockquote>
+<blockquote>
+<p>例句2： 当砍完了最后一棵树，吃掉了最后一只鱼，污染了最后一条河流，你终将意识到，钱不能用来吃。 （话题：增加对气候变化的关注度）</p>
+</blockquote>
+<p>情感与立场紧密相关，例句1是积极的，支持实体希拉里；例句2消极的，但同样表达了对话题的支持。由于句子的极性（积极/消极）与其立场没有直接关系，作者选择用神经网络来学习句子的情感特征。<br>通过查找 MPQA subjective lexicon，抽取出带有极性的词语，组成情感特征序列。<br>$$ X^{(sent)} = { x_1^s, x_2^s, …, x_m^s} $$</p>
+<blockquote>
+<p>MPQA 数据格式</p>
+</blockquote>
+<blockquote>
+<p>type=strongsubj len=1 word1=abuse pos1=verb stemmed1=y priorpolarity=negative</p>
+</blockquote>
+<p>使用 LSTM 训练情感特征序列，用最后一个隐层状态作为情感特征 $H^{(sent)} = LSTM(x^s_m, h_{m-1})$。</p>
+<h3 id="依存特征"><a href="#依存特征" class="headerlink" title="依存特征"></a>依存特征</h3><p>依存特征可以表示词与词之间的关系。</p>
+<p><img src="e4.png" alt="例句 3"></p>
+<p>句中「murder-never-necessity」就是与立场相关的一个依存关系。<br>通过使用 Stanford Parser，作者提取出所有与 noun, verb, adjective, adverb and negation 有关联的关系，如「nsubj」，「acl」，「dobj」等。用提取出的关系对组成依存序列，<br>$$ X^{(dep)} = {x^d_1, X^d_2, …, X^d_m} = {x_1 \oplus x_3, …, x_i \oplus x_j}$$<br>其中 $x_i^d = x_j \oplus x_k$ 表示一个依存关系对。<br>使用 LSTM 训练依存特征序列，用最后一个隐层状态作为依存特征 $H^{(dep)} = LSTM(x_m^d, h_{m-1})$。</p>
+<h3 id="信念特征"><a href="#信念特征" class="headerlink" title="信念特征"></a>信念特征</h3><p>对于特定话题/实体的立场，其背后是一个人的信念。如果可以从句子中得到与信念有关的部分，这会有助于判断句子的立场。</p>
+<p><img src="e5.png" alt="例句 4"></p>
+<blockquote>
+<p>reason数据样例：B14.data.rsn</p>
+<p><strong>Most issues like this, such as sex between minors and alcohol, come down to one thing: it’s your choice. If you want to ruin your life, be my guest.</strong> It isn’t the goverment’s job to control that.</p>
+<p>Label##p-right -&gt; Prohibition violates human rights</p>
+<p>Line##Most issues like this, such as sex between minors and alcohol, come down to one thing: it’s your choice.</p>
+</blockquote>
+<p>作者将 Hasan and Ng(2014) 的 reason 数据简化为二分类数据，使用 <a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/" target="_blank" rel="noopener">libSVM</a> 训练得到一个可以区分句子是否与信念相关的 SVM。通过这个 SVM，得到文本内的信念特征序列<br>$$ X^{(argument)} = {x^a_1, x^a_2, …, X^a_m} $$<br>使用 LSTM 训练信念特征序列，用最后一个隐层状态作为信念特征 $H^{(argument)} = LSTM(x^a_m, h_{m-1})$。</p>
+<h2 id="语言学特征的注意力层"><a href="#语言学特征的注意力层" class="headerlink" title="语言学特征的注意力层"></a>语言学特征的注意力层</h2><p>对于文本中的每个词，通过注意力机制，对语言学特征计算一个对应的权重 $\alpha$ 。<br>$$ \alpha_{ij} = \frac{exp(w_{ij})}{\sum_{j=1}^{n}exp(w_{ij})} $$</p>
+<p>$$ w_{ij} = tanh(W^T[h_j:l_i] + b) $$</p>
+<p>其中 $l_i \in {H^{(sent)}, H^{(dep)}, H^{(argument)}}$, 为相应的语言学特征。$h_j \in H$，第 $j$ 个词的文本特征。<br>例如，当计算情感特征 $l_1 = H^{(sent)}$，对于文本特征 $h_1$ 的对应权重 $\alpha_{11}$。<br>文本中所有词的文本特征 $H$ 与对应语言学特征的加权和，作为该语言学特征的值 $q_i$</p>
+<p>$$ q_i = \sum_{j=1}^{n} \alpha_{ij} h_j $$</p>
+<h2 id="超注意力层"><a href="#超注意力层" class="headerlink" title="超注意力层"></a>超注意力层</h2><p>不同的文本，在三个语言学特征上的值应当不同。根据不同的文档，对各个特征赋予不同的权重。<br>$$ w_j = tanh(W^t V_j + b) $$<br>$$ \beta_j = \frac{exp(w_j)}{\sum_{j=1}^4 exp(w_j)} $$<br>$$ q = \sum_{j=1}^{4} \beta_j k_j, \quad k_j \in {H, q_1, q_2, q_3}$$</p>
+<p>$V$ 为不同文档的权重矩阵。</p>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><p>使用交叉熵作为损失函数，对训练的参数加 L2 约束。</p>
+<p>$$ L(\Theta) = - \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^m y_{ij} log p_{ij} + \frac{\lambda}{2} ||{\Theta}||^2 $$</p>
+<p>神经网络的 droprate 设置为 0.25，<br>embedding 的维度为 300，<br>attention 的维度为 300，<br>优化器使用 Adam，<br>使用标准的反向传播。从训练集中抽取 10%的数据作为开发数据，学习率和其他超参数在开发数据上调整。</p>
+<h2 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h2><p>使用 F1-score 作为评测指标，</p>
+<p>$$ F_{favor} = \frac{2 \times P_{favor} \times R_{favor}} {P_{favor} + R_{favor}} $$<br>$$ F_{against} = \frac{2 \times P_{against} \times R_{against}} {P_{against} + R_{against}} $$</p>
+<p>其中 P 和 R 分别是准确率和召回率。然后计算 $F_{favor}$ 和 $F_{against}$ 的平均作为最后的指标：</p>
+<p>$$ F_{avg} = \frac{F_{favor} + F_{against}} {2}$$</p>
+<p>在话题上的平均记为 F score($MacF_{avg}$)$，在各个立场上的平均记为 F score ($MicF_{avg}$)。<br>结果对比如下：</p>
+<p><img src="results.png" alt="结果对比"></p>
+<h3 id="语言学特征对模型效果的影响"><a href="#语言学特征对模型效果的影响" class="headerlink" title="语言学特征对模型效果的影响"></a>语言学特征对模型效果的影响</h3><p><img src="liguistic_features.png" alt="语言学特征"></p>
+<p>由上表可知所有的语言学信息结合注意力层后，对立场检测都有帮助。</p>
+<h3 id="网络结构对模型效果的影响"><a href="#网络结构对模型效果的影响" class="headerlink" title="网络结构对模型效果的影响"></a>网络结构对模型效果的影响</h3><p><img src="structure_feature.png" alt="网络结构"></p>
+<p>-Hyper 表示去除 Hyper Attention 层，<br>-Hyper,-Ling 表示同时去除 Hyper Attention 层和 linguistic attention 层，直接将语言学特征与文本特征拼接。与 LSTM 对比表明，语言学特征对与立场分析的确有提升。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/立场检测/" rel="tag"># 立场检测</a>
+          
+            <a href="/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Opdoop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#任务"><span class="nav-number">1.</span> <span class="nav-text">任务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结构"><span class="nav-number">3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#各个特征的计算"><span class="nav-number">4.</span> <span class="nav-text">各个特征的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本特征"><span class="nav-number">4.1.</span> <span class="nav-text">文本特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言学特征"><span class="nav-number">4.2.</span> <span class="nav-text">语言学特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#情感特征"><span class="nav-number">4.2.1.</span> <span class="nav-text">情感特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依存特征"><span class="nav-number">4.2.2.</span> <span class="nav-text">依存特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信念特征"><span class="nav-number">4.2.3.</span> <span class="nav-text">信念特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言学特征的注意力层"><span class="nav-number">4.3.</span> <span class="nav-text">语言学特征的注意力层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超注意力层"><span class="nav-number">4.4.</span> <span class="nav-text">超注意力层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练"><span class="nav-number">4.5.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评测指标"><span class="nav-number">4.6.</span> <span class="nav-text">评测指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言学特征对模型效果的影响"><span class="nav-number">4.6.1.</span> <span class="nav-text">语言学特征对模型效果的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构对模型效果的影响"><span class="nav-number">4.6.2.</span> <span class="nav-text">网络结构对模型效果的影响</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Opdoop</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
