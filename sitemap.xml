@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://opdoop.github.io/2019/03/04/qiang_xia_duan_ji/</loc>
+    
+    <lastmod>2019-03-03T17:16:37.605Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/</loc>
+    
+    <lastmod>2019-03-03T17:15:26.703Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/</loc>
     
-    <lastmod>2019-03-02T16:16:59.704Z</lastmod>
+    <lastmod>2019-03-03T10:39:09.389Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://opdoop.github.io/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/</loc>
+    
+    <lastmod>2019-03-03T10:33:16.685Z</lastmod>
     
   </url>
   
@@ -12,13 +33,6 @@
     <loc>https://opdoop.github.io/about/index.html</loc>
     
     <lastmod>2019-03-01T08:11:22.835Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://opdoop.github.io/2019/02/28/Stance%20Detection%20with%20Hierarchical%20Attention%20Network/</loc>
-    
-    <lastmod>2019-03-01T07:09:03.331Z</lastmod>
     
   </url>
   

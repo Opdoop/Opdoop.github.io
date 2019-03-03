@@ -105,34 +105,30 @@
 
 
 
-  <meta name="description" content="摘要立场检测任务，是给定一段文本与一个特定目标，得到文本编写者对于这个目标所持的立场。这个任务与 aspect-level 的情感分类最主要的区别是，给定的目标可能没有在文本中显式的出现。针对这个问题，作者 Du 设计了一种基于神经网络的模型，将目标信息与注意力机制结合，定位出文本中对立场检测重要的部分。Du 的模型分别在中文与英文数据集上进行了测试，得到了 SOTA 的效果。 论文原文Stanc">
+  <meta name="description" content="摘要研究组最近关注于针对特定目标的立场检测。针对隐式提及的目标，或根本没有提及的目标构建文本的向量表示依然是个很有挑战的工作。因此本文在语义层面上采用了最新的注意力机制，提出了一个基于双向 GRU-CNN 的模型。在 SemEval-2016 Task 6.A 上进行实验，此模型超过了 SOTA 词级别注意力机制的 GRU 与 SVM 方法。 论文原文Connecting Targets to T">
 <meta name="keywords" content="立场检测,神经网络,注意力机制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stance Classification with Target-Specific Neural Attention Networks 笔记">
-<meta property="og:url" content="https://opdoop.github.io/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/index.html">
+<meta property="og:title" content="Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记">
+<meta property="og:url" content="https://opdoop.github.io/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/index.html">
 <meta property="og:site_name" content="Opdoop&#39;s Blog">
-<meta property="og:description" content="摘要立场检测任务，是给定一段文本与一个特定目标，得到文本编写者对于这个目标所持的立场。这个任务与 aspect-level 的情感分类最主要的区别是，给定的目标可能没有在文本中显式的出现。针对这个问题，作者 Du 设计了一种基于神经网络的模型，将目标信息与注意力机制结合，定位出文本中对立场检测重要的部分。Du 的模型分别在中文与英文数据集上进行了测试，得到了 SOTA 的效果。 论文原文Stanc">
+<meta property="og:description" content="摘要研究组最近关注于针对特定目标的立场检测。针对隐式提及的目标，或根本没有提及的目标构建文本的向量表示依然是个很有挑战的工作。因此本文在语义层面上采用了最新的注意力机制，提出了一个基于双向 GRU-CNN 的模型。在 SemEval-2016 Task 6.A 上进行实验，此模型超过了 SOTA 词级别注意力机制的 GRU 与 SVM 方法。 论文原文Connecting Targets to T">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/model.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/table1.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/table2.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/result.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/learning_curve.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/attention.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/error.png">
-<meta property="og:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/episode2_18_20.png">
-<meta property="og:updated_time" content="2019-03-03T10:39:09.389Z">
+<meta property="og:image" content="https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/AT-biGRU.png">
+<meta property="og:image" content="https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/AS-biGRU-CNN.png">
+<meta property="og:image" content="https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/sp_result.png">
+<meta property="og:image" content="https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/episode3_00_40.png">
+<meta property="og:updated_time" content="2019-03-03T17:15:26.703Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Stance Classification with Target-Specific Neural Attention Networks 笔记">
-<meta name="twitter:description" content="摘要立场检测任务，是给定一段文本与一个特定目标，得到文本编写者对于这个目标所持的立场。这个任务与 aspect-level 的情感分类最主要的区别是，给定的目标可能没有在文本中显式的出现。针对这个问题，作者 Du 设计了一种基于神经网络的模型，将目标信息与注意力机制结合，定位出文本中对立场检测重要的部分。Du 的模型分别在中文与英文数据集上进行了测试，得到了 SOTA 的效果。 论文原文Stanc">
-<meta name="twitter:image" content="https://opdoop.github.io/2019/03/03/Stance%20Classification%20with%20Target-Specific%20Neural%20Attention%20Networks/model.png">
+<meta name="twitter:title" content="Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记">
+<meta name="twitter:description" content="摘要研究组最近关注于针对特定目标的立场检测。针对隐式提及的目标，或根本没有提及的目标构建文本的向量表示依然是个很有挑战的工作。因此本文在语义层面上采用了最新的注意力机制，提出了一个基于双向 GRU-CNN 的模型。在 SemEval-2016 Task 6.A 上进行实验，此模型超过了 SOTA 词级别注意力机制的 GRU 与 SVM 方法。 论文原文Connecting Targets to T">
+<meta name="twitter:image" content="https://opdoop.github.io/2019/03/04/Semantic%20Attention-Based%20Model%20for%20Target-Specific%20Stance%20Detection/AT-biGRU.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://opdoop.github.io/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/">
+  <link rel="canonical" href="https://opdoop.github.io/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/">
 
 
 
@@ -142,7 +138,7 @@
   };
 </script>
 
-  <title>Stance Classification with Target-Specific Neural Attention Networks 笔记 | Opdoop's Blog</title>
+  <title>Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记 | Opdoop's Blog</title>
   
 
 
@@ -391,7 +387,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://opdoop.github.io/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/">
+    <link itemprop="mainEntityOfPage" href="https://opdoop.github.io/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Opdoop">
@@ -408,7 +404,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Stance Classification with Target-Specific Neural Attention Networks 笔记
+          <h1 class="post-title" itemprop="name headline">Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记
 
               
             
@@ -434,7 +430,7 @@
                 
               
 
-              <time title="创建时间：2019-03-03 00:04:09 / 修改时间：18:39:09" itemprop="dateCreated datePublished" datetime="2019-03-03T00:04:09+08:00">2019-03-03</time>
+              <time title="创建时间：2019-03-04 00:56:22 / 修改时间：01:15:26" itemprop="dateCreated datePublished" datetime="2019-03-04T00:56:22+08:00">2019-03-04</time>
             
 
             
@@ -475,8 +471,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/" itemprop="commentCount"></span>
+                <a href="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -484,7 +480,7 @@
 
           
           
-            <span id="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/" class="leancloud_visitors" data-flag-title="Stance Classification with Target-Specific Neural Attention Networks 笔记">
+            <span id="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/" class="leancloud_visitors" data-flag-title="Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -543,81 +539,63 @@
       
 
       
-        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>立场检测任务，是给定一段文本与一个特定目标，得到文本编写者对于这个目标所持的立场。这个任务与 aspect-level 的情感分类最主要的区别是，给定的目标可能没有在文本中显式的出现。针对这个问题，作者 Du 设计了一种基于神经网络的模型，将目标信息与注意力机制结合，定位出文本中对立场检测重要的部分。Du 的模型分别在中文与英文数据集上进行了测试，得到了 SOTA 的效果。</p>
-<h2 id="论文原文"><a href="#论文原文" class="headerlink" title="论文原文"></a>论文原文</h2><p><a href="https://www.ijcai.org/proceedings/2017/0557.pdf" target="_blank" rel="noopener">Stance Classification with Target-Specific Neural Attention Networks</a></p>
-<p>IJCAI 2017, Jiachen Du et al, Shenzhen Graduate School, Harbin Institute of Technology, Shenzhen, China</p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h2><p>随着网络的发展，越来越多的人在线上媒体表达自己的观点。然而，比起判断一段文本的极性，很多的应用场景里更关注与判断文本作者对某个目标的立场。比如美国大选。<br>对于立场分析的早期研究关注于对论坛和新闻的立场检测。随着社交媒体的发展，更多的人关注于在微博平台上的应用，这有很多应用价值。<br>立场检测被定义为一个分类问题，为给定的一段文本与一个特定立场，指派 {支持，反对，其他} 其中的一个标签。<br>在已有的研究中，有很多使用特征工程手工从中抽取特征的，也有使用 CNN/RNN 等经典网络结构的。但这些方法都忽略了目标信息。因此，作者 Du，提出了他妈的模型 Target-specific Attentional Network (TAN) 将目标信息应用在立场检测中。他们的模型利用了最新的针对目标信息的注意力特征抽取器，首先，将目标与文本的词向量连接起来，然后用一个全连接网络学习注意力信号量，让分类器关关注于重要的部分。实验结果显示，在中文与英文数据集上，TAN 模型取得了 SOTA 的结果。<br>Du 工作的主要贡献有：</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>研究组最近关注于针对特定目标的立场检测。针对隐式提及的目标，或根本没有提及的目标构建文本的向量表示依然是个很有挑战的工作。因此本文在语义层面上采用了最新的注意力机制，提出了一个基于双向 GRU-CNN 的模型。在 SemEval-2016 Task 6.A 上进行实验，此模型超过了 SOTA 词级别注意力机制的 GRU 与 SVM 方法。</p>
+<h2 id="论文原文"><a href="#论文原文" class="headerlink" title="论文原文"></a>论文原文</h2><p><a href="https://www.springer.com/cda/content/document/cda_downloaddocument/9783319687827-c2.pdf?SGWID=0-0-45-1620471-p181174832" target="_blank" rel="noopener">Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection</a></p>
+<p>WISE 2017, Yiwei Zhou, University of Warwick, Coventry, UK</p>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h2><p>针对具体目标的立场检测问题可以被定义为：给定一段文本 <em>X</em> 和一个目标 <em>Y</em> ，为每一个 <em>X</em> 针对给定的 <em>Y</em> ，从 {支持，反对，其他} 这三个类别中确定一个立场。目标可以是一个人，一个租住，一项政策，一场运动，一个产品等等。针对具体目标的力倡建祠与 aspect-level 的情感分析两个不同点：1. 可以从积极、消极、中性的发言中表达同一个立场。2. 立场检测中的目标并不一定出现在了文本里，可能是隐式提及的，可能根本没有提及。由于 Twitter 的文本通常很短，还有很多噪声，这个任务的主要挑战是针对具体目标进行立场检测的同时，使用很少一部分的上下文信息或额外信息。深度学习近期在机器翻译，问答系统，情感分析等领域取得了重大进展。但在 target-secific 的立场检测中并没有成功的应用深度学习，现有的结果甚至比传统的算法（手工特征工程 + SVM）更低。</p>
+<p>不是文本中每个词对立场检测提供的信息量都一样，所以作者针对给定目标，使用了注意力机制。通过在语义层面引入目标信息与注意力机制，作者提出的模型超出了 SemEval-2016 中效果最好的模型。并且，不依赖额外收集的语料库来预训练 embedding，也不需要手工的特征工程。</p>
+<h2 id="2-神经网络模型在针对具体目标的立场检测中的应用"><a href="#2-神经网络模型在针对具体目标的立场检测中的应用" class="headerlink" title="2 神经网络模型在针对具体目标的立场检测中的应用"></a>2 神经网络模型在针对具体目标的立场检测中的应用</h2><p>本节，首先介绍两个基本模型，1.双向 GRU的模型，2. 在 biGRU 基础上叠加 CNN 的模型。在这基础上，通过在 token-level 与 semantic-level 上引入注意力机制，分别得到 AT-biGRU 模型 和 AS-biGRU-CNN 模型。最后介绍计算目标 embedding 的方式，以及模型训练的细节。</p>
+<h3 id="2-1-biGRU-模型"><a href="#2-1-biGRU-模型" class="headerlink" title="2.1 biGRU 模型"></a>2.1 biGRU 模型</h3><p>通过引入门单元，GRU 可以解决梯度消失或梯度爆炸的问题。通过引入额外的记忆单元，GRU 可以捕捉到序列中的依赖关系。对于一个长度为 $N$ 的序列，[$x_1,x_2,…,x_N$]，通过以下公式，GRU 将其映射为一组隐层状态 [$h_1,h_2,…,h_N$] :</p>
+
+$$ r_n = \sigma (W_r x_n + U_r h_{n-1} + b_r) $$
+$$ z_n = \sigma (W_z x_n + U_z h_{n-1} + b_z) $$
+$$ \tilde{h_n} = tanh(W_h x_n + U_h (r_n \odot h_{n-1}) + b_b) $$
+$$ h_n = (1 - z_n) \odot h_{n-1} + z_n \odot \tilde{h_n} $$
+
+<p>其中 $n \in {1,…,N}$；$r_n$ 是复位门，$z_n$ 是更新门；$\tilde h_n \in \mathbb{R}^{d_1}$ 为记忆单元，$h_n \in \mathbb{R}^{d_1}$ 为 GRU 的隐层状态；$x_n \in \mathbb{R}^{d_0}$ 为每个词的 embedding 向量；$W_r, W_z, W_h \in \mathbb{R}^{d_1 \times d_0}$ 和 $U_r, U_z, U_h \in \mathbb{R}^{d_1 \times d_1}$ 表示可训练的权重矩阵，$b_r, b_z, b_h \in \mathbb{R}^{d_1}$ 表示可训练的偏置项；$\sigma(·)$ 表示 sigmoid 函数；$\odot$ 表示 element-wise multiplication 。</p>
+<p>通过使用将正向 GRU 与反向 GRU 得到的隐层状态值拼接，得到 [$\overrightarrow{h} | \overleftarrow{h}$]，捕捉双向信息。</p>
+<p>在 biGRU 模型中，输入文本的向量表示为 s：</p>
+<p>$$ s = \overrightarrow{h_N} | \overleftarrow{h_1} $$</p>
+<h3 id="2-2-biGRU-CNN-模型"><a href="#2-2-biGRU-CNN-模型" class="headerlink" title="2.2 biGRU-CNN 模型"></a>2.2 biGRU-CNN 模型</h3><p>biGRU 将所有信息压缩在两个固定长度的隐层状态向量中，在存在长距离的依赖关系时可能会限制模型性能。根据所有 RNN 的隐层状态，输入到 CNN 网络中，得到一个动态的向量表示。具体的说，对拼接了 $k$ 次的隐层状态 $h_{h:i+k-1} \in \mathbb{R}^{2kd_1}$ 添加一个过滤器权重 $w_f \in \mathbb{R}^{2kd_1}$，计算得到 $c_i$：</p>
+<p>$$ c_i = f(w^T_f h_{i:i+k-1} + b_f) $$</p>
+<p>其中 $f$ 是 ReLu 函数，$b_f \in \mathbb{R}$ 是偏置项。对于所有的特征集合 $\textbf{c}$ = $(c_1,c_2,…,c_{N-k+1})$。通过 max 函数获取最重要的特征 $\hat{c}$：</p>
+<p>$$ \hat{c} =max{\textbf{c}}$$</p>
+<h3 id="2-3-AT-biGRU-模型"><a href="#2-3-AT-biGRU-模型" class="headerlink" title="2.3 AT-biGRU 模型"></a>2.3 AT-biGRU 模型</h3><p>机器翻译中首先提出的 token-level 的注意力机制，允许神经网络自动的在源句子中寻找与预测对应词相关的 token，并且遮蔽不相关的 token。本文中，为了使 biGRU 针对跟定目标可以自动寻找对应的部分来觉得这段文本的立场，作者提出了融合注意力机制的模型，如图 Fig.1：</p>
+<p><img src="AT-biGRU.png" alt="AT-biGRU"></p>
+<p>在 AT-biGRU 模型中，文本的向量表示 $s$ 是隐层状态的加权和：</p>
+<p>$$ s = \sum^n_{n=1} \alpha_n h_n $$</p>
+<p>在上面的等式中，权重 $\alpha_n$ 的计算是：</p>
+<p>$$ \alpha_n = \frac{exp(e_n)}{\sum^n_{n=1}exp(e_n)}$$</p>
+<p>其中 $e_n \in \mathbb{R}$ 是用 $h_n$ 和目标 embedding $q$ 作为输入，通过多层感知机进行计算：</p>
+<p>$$ e_n = att(h_n, q) = w^T_m(tanh(W_{ah}h_n + W_{aq} q + b_a)) + b_m$$</p>
+<p>其中 $W_{ah} \in \mathbb{R}^{2d_1 \times 2d_1}; W_{aq} \in \mathbb{R}^{2d_1 \times 2d_2};b_a,w_m \in \mathbb{R}^{2d_1};b_m \in \mathbb{R}$ 计算 token-level 的注意力层优化参数。在 2.5 节，会介绍各种根据目标的词向量，生成目标 embedding $q \in \mathbb{R}^{b_2}$ 的方式。</p>
+<h3 id="2-4-AS-biGRU-CNN-模型"><a href="#2-4-AS-biGRU-CNN-模型" class="headerlink" title="2.4 AS-biGRU-CNN 模型"></a>2.4 AS-biGRU-CNN 模型</h3><p>通过将 biGRUN-CNN 中的 $h_n$ 用融合了目标注意力的 ${h’}_n$，得到 AS-biGRU-CNN 模型。其中 ${h’}_n$ 的计算为：<br>$$ {h’}_n = a_n \odot h_n $$<br>其中 $a_n$ 的计算方式与 2.3 相同。<br><img src="AS-biGRU-CNN.png" alt="AS-biGRU-CNN"></p>
+<h3 id="2-5-目标-Embedding"><a href="#2-5-目标-Embedding" class="headerlink" title="2.5 目标 Embedding"></a>2.5 目标 Embedding</h3><p>作者使用 biGRU 对训练目标词向量，得到 $q$。同时与常见的用目标词向量的平均值作为目标 embedding 进行了对比。</p>
+<h3 id="2-6-模型训练"><a href="#2-6-模型训练" class="headerlink" title="2.6 模型训练"></a>2.6 模型训练</h3><p>对文本的向量表示 $s$ 添加 softmax 层，得到对应每个立场的概率。对于文本 $X$ ，给定特定目标 $Y$ 计算所属立场类别的概率 $z$，用 $P(z|X,Y)$。表示。模型目标为 $z’$ ：</p>
+
+$$ z' = argmax_{z \in \textbf{z}}P(z|X,Y) $$
+
+<p>所有模型都是连续可导的，采用端到端的训练方法，用标准的反向传播训练。使用交叉熵作为损失函数。</p>
+<h2 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3 实验结果"></a>3 实验结果</h2><p>参数设置：</p>
 <ul>
-<li>提出了针对目标的注意力抽取计算方式。使得他们的模型可以根据目标信息从文本中抽取出最重要的部分。</li>
-<li>提出了一个有监督模型，TAN。这个模型结合了注意力与 LSTM。</li>
-<li>在 Semeval-2016 (英文数据集) 和 NLPCC-2016 (中文数据集) 上进行了实验，TAN 模型超过了最好水平。并且通过对注意力层的可视化，说明了为何这么模型有效果。</li>
+<li>使用 Glove 100 的 word embedding on Wikipedia。</li>
+<li>biGRU 纬度为 128</li>
+<li>对embedding 层的 dropout 为 0.2，对 GRU 的 dropout 为 0.3 ，对CNN 的 droput 为 0.5。</li>
+<li>CNN 的 $k \in {3,4,5}$</li>
+<li>使用 Adam，momentum 参数为 0.9 和 0.999。</li>
+<li>mini-batch size 为 16</li>
+<li>模型代码见：<a href="https://github.com/zhouyiwei/tsd" target="_blank" rel="noopener">https://github.com/zhouyiwei/tsd</a><br>SemEval 数据有 5 个主题，针对每个主题分别训练模型，得到结果如下：</li>
 </ul>
-<h2 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2 相关工作"></a>2 相关工作</h2><p><a href="https://www.aclweb.org/anthology/D16-1084" target="_blank" rel="noopener">Augenstein et al. EMNLP 2016</a> 对文本和目标分别使用一个 RNN 模型来做立场检测。同时还使用了大量的无标记 Twitter 预料来预测与任务相关的 hashtag，对 word embedding 进行初始化。</p>
-<p>在更通用的情感分析领域，<a href="https://www.aclweb.org/anthology/P15-1150" target="_blank" rel="noopener">Tai et al, ACL 2015</a> 使用了树形结构的 RNN。 <a href="https://www.cs.cmu.edu/~hovy/papers/16HLT-hierarchical-attention-networks.pdf" target="_blank" rel="noopener">Yang et al., ACL 2016</a> 在 seq2seq 的文档层面的分类任务中使用了注意力机制模型。到目前为止，还没有为立场分类提出过相应的注意力层计算方式。</p>
-<h2 id="3-模型"><a href="#3-模型" class="headerlink" title="3 模型"></a>3 模型</h2><p>如前面所提到的，同时考虑文本信息与目标信息，有可能会提高对立场检测的效果。在这个动机下，作者提出了结合 RNN 与 注意力机制的神经网络模型。称作 Target-specific Attention Neural Network (TAN)。模型的结构如下：</p>
-<p><img src="model.png" alt="model"></p>
-<p>模型主要有两部分，一个使用 RNN 的特征抽取器，以及一个全连接层计算分配注意力后的特征。</p>
-<h3 id="3-1-RNN-部分"><a href="#3-1-RNN-部分" class="headerlink" title="3.1 RNN 部分"></a>3.1 RNN 部分</h3><p>在他们的模型中，使用 LSTM 中每个 step 的隐层状态，对应文本中的词。模型中使用了双向 LSTM 。连接正向与反向 LSTM 的隐层状态值来表示文本中的每个词。</p>
-<h3 id="3-2-结合目标信息的词向量"><a href="#3-2-结合目标信息的词向量" class="headerlink" title="3.2 结合目标信息的词向量"></a>3.2 结合目标信息的词向量</h3><p>一个长度为 $N$ 的目标序列，用 $[z_1, z_2, …, Z_N]$ 表示，其中 $\mathbb{R}^{d’}$ 是 $d’$ 维的向量。由于 word embedding 可以展示的是词的线性结构，因此在词级别上进行向量相加依然保有一定的语义，作者 Du 用 $\tilde{z}$ 表示更压缩的目标信息：</p>
-<p>$$ \bar{z} = \frac{1}{N} \sum^{N}_{n=1} z_n $$</p>
-<p>因此，结合目标 $Z$ 的词向量为：</p>
-<p>$$ e^{z}_{t} = x_t \oplus \bar{z} $$</p>
-<p>其中 $\oplus$ 表示向量的连接操作。因此，如果文本词向量的维度是 $d$，目标信息向量的维度是 $d’$ ，结合目标信息的词向量 $e^z_t$ 的维度是 $(d + d’)$ 。</p>
-<h3 id="3-3-目标信息的注意力权重计算"><a href="#3-3-目标信息的注意力权重计算" class="headerlink" title="3.3 目标信息的注意力权重计算"></a>3.3 目标信息的注意力权重计算</h3><p>作者用全连接层训练注意力权重：</p>
-<p>$$ {a’}_t = W_a e_t^z + b_a $$</p>
-<p>其中 $W_a$ 和 $b_a$ 是注意力抽取中的权重与偏置项。</p>
-<p>为了获得更稳定的注意力值，作者将注意力向量 $[{a’}_1, {a’}_2,…, {a’}_T]$ 输入到 softmax 层来得到最终的注意力值：<br>
-$$ a_t = softmax(a_t) = \frac{e^{{a'}_t}}{\sum^T_{i=1}e^{{a'}_i}} $$
-</p>
-<h3 id="3-4-立场分类"><a href="#3-4-立场分类" class="headerlink" title="3.4 立场分类"></a>3.4 立场分类</h3><p>用注意力值 $a_t$ 和对应的文本 RNN 隐层状态 $h_t$ 的乘积来表示第 $t$ 个字。用所有字的平均值来表示整个序列：</p>
-<p>$$ s = \frac{1}{T} \sum^{T-1}_{t=1} a_t h_t $$</p>
-<p>其中 $s \in \mathbb{R}^d$。用这个向量作为序列分类的特征。</p>
-<p>$$ p = softamx(W_{clf}s + b_{clf}) $$</p>
-<p>其中 $p \in \mathbb{R}^C$，是这个向量对应立场的预测概率。这里 $C$ 是立场类别的数量，$W_{clf}$ 和 $b_{clf}$ 是分类层的训练参数。</p>
-<h3 id="3-5-模型训练"><a href="#3-5-模型训练" class="headerlink" title="3.5 模型训练"></a>3.5 模型训练</h3><p>作者使用交叉熵损失损失来端到端的训练模型。对于一组训练数据 ${x^i, z^i, y^i}$，其中 $x^i$ 是第 $i$ 个需要预测的文本，$z^i$ 是给定的目标，$y_i$ 是立场类别的 one-hot 表示。模型可以表示为一个黑箱函数 $f(x,z)$，输出是一个向量，对应各个立场的概率。训练目标是最小化损失函数：</p>
-<p>$$\mathcal{L} = - \sum_i \sum_j y_j^i log f_j(X_i, z_i) + \lambda | \theta |^2 $$</p>
-<p>其中 $\lambda | \theta |^2$ 是 L2 正则项。<br>模型是一组标准的 LSTM 与 softmax 分类器，只多出一组 ${W_a, b_a}$ 的注意力层。</p>
-<h2 id="4-模型评估"><a href="#4-模型评估" class="headerlink" title="4 模型评估"></a>4 模型评估</h2><p>本节先介绍实验设置，然后与其他 baseline 进行比较，最后可视化注意力层，表明注意力抽取层的有效性。</p>
-<h3 id="4-1-实验设置"><a href="#4-1-实验设置" class="headerlink" title="4.1 实验设置"></a>4.1 实验设置</h3><p><strong>数据集</strong></p>
-<p>为了检验模型效果，作者在分别在中文与英文的立场检测任务上进行了实验。</p>
-<p><em>英文数据集</em>  Semeval-2016 Task 6 。这个数据集中有大约 4,000 条推特，每条推特有属于一个话题，共有 5 个话题 「Atheism, Climate Change is a Real Concern, Feminist Movement, Hillary Clinton, Legalization of Abortion」。Table 1 是这个数据集的统计信息。</p>
-<p><img src="table1.png" alt="table1"></p>
-<p><em>中文数据集</em>  NLPCC-2016 中文立场检测任务。这个数据集与 Semeval-2016 相似。共有 3,000 跳中文微博，5 个目标，3 个立场标签。对于每个目标，有 600 个训练数据和 200 个测试数据。Table 2 展示了这个数据集的统计信息。</p>
-<p><img src="table2.png" alt="table2"></p>
-<p><strong>评价指标</strong></p>
-<p>使用在 Favor（支持）和 Against（反对）类别上的 F1-score 作为评价指标：</p>
-<p>$$ F_{Favor} = \frac{2P_{Favor}R_{Favor}}{P_{Favor}{R_{Favor}}} $$</p>
-<p>$$ F_{Against} = \frac{2P_{Against}R_{Against}}{P_{Against}{R_{Against}}} $$</p>
-<p>其中 $P$ 和 $R$ 是 precision（准确率） 和 recall（召回率）。然后对 $F_{Favor}$ 和 $F_{Against}$ 进行平均，作为最终的评价指标：</p>
-<p>$$ F_{average} =\frac{F_{Favor} + F_{Against}}{2} $$</p>
-<p>注意，最终的评价指标忽略了 {None} 这个类别。我们只关心在 Favor 和 Against 类别上的效果。</p>
-<p><strong>Baselines</strong></p>
-<p>作者对比的 baseline 方法有：</p>
-<ul>
-<li>Neural Bag-Of-Words (NBOW): 对文本的词向量家和，用 softmax 进行分类。</li>
-<li>LSTM : 没有目标信息与注意力机制的网络</li>
-<li>LSTM : 结合了目标信息的 embedding</li>
-<li>TOP: 各任务上效果最好的模型。<ul>
-<li>Semeval-2016: MITER。模型有两个 RNN，第一个 RNN 在无标签的推特数据训练 task 相关的 hashtag 的 embedding，用来初始化第二个 RNN。 用对应数据集训练第二个 RNN 进行分类。<a href="(https://www.aclweb.org/anthology/D16-1084">Augenstein et al., 2016</a>)</li>
-<li>NLPCC-2016： RUC_MMC。这个方法中分别对 5 个目标训练了对应的 5 个模型。每个模型中有 5 中手工抽取的特征，然后用 SVM 和 随机森林进行分类 <a href="https://link.springer.com/chapter/10.1007%2F978-3-319-50496-4_85" target="_blank" rel="noopener">Xu et al., 2016</a></li>
-</ul>
-</li>
-</ul>
-<p><strong>训练设置</strong></p>
-<p>对每个目标分别训练一个模型。将所有模型的预测结果拼起来，作为模型的最终结果。所有模型使用相同的超参数设置。在 5-fold 交叉验证上选择最优参数。<br>模型 Embedding 使用 <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Mikolov et al., 2013</a> 的方法进行初始化。从 Twitter 和新浪微博上抓取无标签数据进行训练。使用 U (-0.01, 0.01) 的均匀分布进行初始化。词向量维度为 300， LSTM 电源的纬度为 100.使用 Adam 作为优化器，learning rate 为 $5e-4$，$\beta_1$ 为 0.9，$\beta_2$ 为 0.999，$\epsilon$ 为 $1e-8$ 。所有模型使用大小为 50 的 mini-batch 进行训练。</p>
-<h3 id="4-2-结果"><a href="#4-2-结果" class="headerlink" title="4.2 结果"></a>4.2 结果</h3><p><img src="result.png" alt="result"></p>
-<p>中文比英文高，可能的原因是中文数据集更均匀。<br>NBOW 和 LSTM 未引入目标信息，效果不佳。 引入目标信息的 $LSTM_E$ 分数有 3.03% 左右的提升，说明目标信息有效果。$TAN$ 增加注意力后，比 $LSTM_E$ 又高出 3.54% 左右，说明注意力机制有效。TAN 模型在中文与英文上都超过了最佳模型，说明 TAN 是与语言类型无关的模型。</p>
-<h3 id="4-3-定性分析："><a href="#4-3-定性分析：" class="headerlink" title="4.3 定性分析："></a>4.3 定性分析：</h3><p><strong>学习曲线</strong></p>
-<p><img src="learning_curve.png" alt="curve"></p>
-<p>中文与英文数据集上 TAN 均在 3 个迭代后收敛，而标准 LSTM 需要 5 次迭代。并且 TAN 的 loss 更低。说明 TAN 模型在准确度与时间复杂度上都更优。</p>
-<p><strong>注意力可视化</strong></p>
-<p><img src="attention.png" alt="attention"></p>
-<p>在注意力的上方写出了对应的目标，情感，立场，右侧为 TAN 和标准 LSTM 给出的预测结果。可视化表明注意力机制可以给与目标信息更相关的词赋予更高的权重。例子中的情感与立场信息并不一致，说明立场分类与情感分类有本质上的区别。TAN 的预测结果是正确的， LSTM 的预测结果是错误的。</p>
-<h3 id="4-4-错误分析"><a href="#4-4-错误分析" class="headerlink" title="4.4 错误分析"></a>4.4 错误分析</h3><p><img src="error.png" alt="error"></p>
-<p>上图分别给出了一个英文与中文的错误分类例子。英文例子中，是一句从圣经中引用的话。因此正确的预测立场需要一些额外的背景知识。中文例子中，生二胎会引起对看病上学的担忧，所以文本作者持反对立场。模型正确的分配的注意力，但给出了错误的结果。</p>
-<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>本篇论文提出了一个基于神经网络的立场检测模型。本文的主要贡献是结合立场信息与注意力机制。实验证明所提出的方法超过了 baseline。注意力可视化说明所提出的模型有能力抽取出对立场检测重要的文本。<br>进一步的工作，将关注于在其他的 SOTA 模型中引入注意力机制。以及用更灵活的方法引入额外的信息来提升立场检测的效果。</p>
-<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><p>文章结构清晰，模型思路直接。进一步方向是引入额外信息，以及使用更好的特征抽取方式。模型实现简单，推荐作为 baseline 使用。</p>
-<p><img src="episode2_18_20.png" alt="pp"></p>
+<p><img src="sp_result.png" alt="sp_result"></p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>针对 target-specific 的目标检测提出了 AS-biGRU-CNN 模型。主要贡献是首次引入 target 信息，并融合注意力机制。模型没有使用太多的额外信息，扩展性强。</p>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><p>实验中作者发现共享 target 和 tweet 的 embedding 效果比二者分别使用各自的 embedding 效果好。</p>
+<p>实验发现用直接对 word embedding 平均替代 biGRU 训练 target 的 word embedding 后，AT-biGRU 从 67.97 提升到了 68.30，而 AS-biGRU-CNN 从 69.42 降低到了 68.35。作者解释如下（<del>我没读懂，难受</del>）</p>
+<blockquote>
+<p>One possible explanation could be that a simple averaging approach is insufficient to capture the semantic meanings of the targets, thus for the biGRU-CNN model, which has stronger expressive power than the biGRU model in target-specific Stance Detection, it is helpful to use more flexible target embeddings to perform complex inference. However, for the AT-biGRU model, the target embeddings generated by biGRU surpass its capability to learn and generalise. This is also the reason why stacking the CNN structure on top ofthe AT-biGRU model cannot help to improve the performance, as it does in the AS-biGRU-CNN model.</p>
+</blockquote>
+<p>由于数据集有 5 个主题，每个主题下的数据量不同，而且样本中各个立场的比例也不均匀。作者假设在各个立场上的上下文可以 「jointly modelling the interaction between stances and contexts of all the available targets」。所以作者尝试了用一个模型在这 5 个立场上训练。结果发现数据量少的话题上 F1 有提升，数据量多的话题上 F1 有下降。对于样本不足，jointly 训练有帮助，对于样本充足，额外信息反而会让模型效果下降。</p>
+<p>所有基于网络的模型都比 SVM 效果好，也许是因为网络模型使用的是连续向量表示文本，SVM 使用的是根据特征工程得到的离散的特征。连续的词向量表示可以时词之间共容易发生信息传递。</p>
+<p><img src="episode3_00_40.png" alt="pp"></p>
 
       
     </div>
@@ -659,12 +637,12 @@ $$ a_t = softmax(a_t) = \frac{e^{{a'}_t}}{\sum^T_{i=1}e^{{a'}_i}} $$
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/">Stance Classification with Target-Specific Neural Attention Networks 笔记</a></p>
+  <p><span>本文标题:</span><a href="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/">Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Opdoop 的个人博客">Opdoop</a></p>
-  <!-- <p><span>发布时间:</span>2019年03月03日 - 00:04</p>  -->
-  <!-- <p><span>最后更新:</span>2019年03月03日 - 18:39</p>  -->
-  <p><span>原始链接:</span><a href="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/" title="Stance Classification with Target-Specific Neural Attention Networks 笔记">https://opdoop.github.io/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://opdoop.github.io/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/" aria-label="复制成功！"></i></span>
+  <!-- <p><span>发布时间:</span>2019年03月04日 - 00:56</p>  -->
+  <!-- <p><span>最后更新:</span>2019年03月04日 - 01:15</p>  -->
+  <p><span>原始链接:</span><a href="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/" title="Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记">https://opdoop.github.io/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://opdoop.github.io/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -694,8 +672,8 @@ $$ a_t = softmax(a_t) = \frac{e^{{a'}_t}}{\sum^T_{i=1}e^{{a'}_i}} $$
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/28/Stance Detection with Hierarchical Attention Network/" rel="next" title="Stance Detection with Hierarchical Attention Network 笔记">
-                <i class="fa fa-chevron-left"></i> Stance Detection with Hierarchical Attention Network 笔记
+              <a href="/2019/03/03/Stance Classification with Target-Specific Neural Attention Networks/" rel="next" title="Stance Classification with Target-Specific Neural Attention Networks 笔记">
+                <i class="fa fa-chevron-left"></i> Stance Classification with Target-Specific Neural Attention Networks 笔记
               </a>
             
           </div>
@@ -704,8 +682,8 @@ $$ a_t = softmax(a_t) = \frac{e^{{a'}_t}}{\sum^T_{i=1}e^{{a'}_i}} $$
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/04/Semantic Attention-Based Model for Target-Specific Stance Detection/" rel="prev" title="Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记">
-                Connecting Targets to Tweets: Semantic Attention-Based Model for Target-Specific Stance Detection 笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/04/qiang_xia_duan_ji/" rel="prev" title="墙下短记">
+                墙下短记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -879,7 +857,7 @@ $$ a_t = softmax(a_t) = \frac{e^{{a'}_t}}{\sum^T_{i=1}e^{{a'}_i}} $$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文原文"><span class="nav-number">2.</span> <span class="nav-text">论文原文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-number">3.</span> <span class="nav-text">1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-相关工作"><span class="nav-number">4.</span> <span class="nav-text">2 相关工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-模型"><span class="nav-number">5.</span> <span class="nav-text">3 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-RNN-部分"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 RNN 部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-结合目标信息的词向量"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 结合目标信息的词向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-目标信息的注意力权重计算"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 目标信息的注意力权重计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-立场分类"><span class="nav-number">5.4.</span> <span class="nav-text">3.4 立场分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-模型训练"><span class="nav-number">5.5.</span> <span class="nav-text">3.5 模型训练</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-模型评估"><span class="nav-number">6.</span> <span class="nav-text">4 模型评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-实验设置"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 实验设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-结果"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-定性分析："><span class="nav-number">6.3.</span> <span class="nav-text">4.3 定性分析：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-错误分析"><span class="nav-number">6.4.</span> <span class="nav-text">4.4 错误分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">7.</span> <span class="nav-text">5 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Notes"><span class="nav-number">8.</span> <span class="nav-text">Notes</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文原文"><span class="nav-number">2.</span> <span class="nav-text">论文原文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-number">3.</span> <span class="nav-text">1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-神经网络模型在针对具体目标的立场检测中的应用"><span class="nav-number">4.</span> <span class="nav-text">2 神经网络模型在针对具体目标的立场检测中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-biGRU-模型"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 biGRU 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-biGRU-CNN-模型"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 biGRU-CNN 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-AT-biGRU-模型"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 AT-biGRU 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-AS-biGRU-CNN-模型"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 AS-biGRU-CNN 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-目标-Embedding"><span class="nav-number">4.5.</span> <span class="nav-text">2.5 目标 Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-模型训练"><span class="nav-number">4.6.</span> <span class="nav-text">2.6 模型训练</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-实验结果"><span class="nav-number">5.</span> <span class="nav-text">3 实验结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">6.</span> <span class="nav-text">5 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Notes"><span class="nav-number">7.</span> <span class="nav-text">Notes</span></a></li></ol></div>
             
 
           </div>
